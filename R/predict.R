@@ -47,6 +47,7 @@ check_neighbors <- function(neighbors, object) {
 
 #' Augment data with predicted values
 #' @inheritParams predict.nn_adjust
+#' @param x An object of class [nn_adjust()].
 #' @return A tibble with a numeric column `.pred` that are the adjusted and the
 #' data being predicted.
 #' @export

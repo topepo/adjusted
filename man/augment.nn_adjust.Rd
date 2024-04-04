@@ -7,6 +7,8 @@
 \method{augment}{nn_adjust}(x, new_data, ...)
 }
 \arguments{
+\item{x}{An object of class \code{\link[=nn_adjust]{nn_adjust()}}.}
+
 \item{new_data}{A data frame with the original predictors in their original
 format.}
 
