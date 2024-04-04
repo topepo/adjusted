@@ -46,9 +46,10 @@ check_neighbors <- function(neighbors, object) {
 # ------------------------------------------------------------------------------
 
 #' Augment data with predicted values
-#'
+#' @inheritParams predict.nn_adjust
+#' @return A tibble with a numeric column `.pred` that are the adjusted and the
+#' data being predicted.
 #' @export
-
 augment.nn_adjust <- function(x, new_data, ...) {
   predictions <- predict(x, new_data, ...)
   mold <- hardhat::extract_mold(x$fit)

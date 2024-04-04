@@ -31,6 +31,11 @@ nn_adjust.workflow <- function(wflow, training, butcher = FALSE, ...) {
     cli::cli_abort("{.arg wflow} should be trainined.")
   }
 
+  mode <- wflow %>% hardhat::extract_spec_parsnip() %>% purrr::pluck("mode")
+  if (mode != "regression") {
+    cli::cli_abort("The model must have a 'regression' mode.")
+  }
+
   pkgs <- required_pkgs(wflow)
   rlang::check_installed(pkgs)
 

@@ -4,7 +4,17 @@
 \alias{augment.nn_adjust}
 \title{Augment data with predicted values}
 \usage{
-augment.nn_adjust(x, new_data, ...)
+\method{augment}{nn_adjust}(x, new_data, ...)
+}
+\arguments{
+\item{new_data}{A data frame with the original predictors in their original
+format.}
+
+\item{...}{Not currently used.}
+}
+\value{
+A tibble with a numeric column \code{.pred} that are the adjusted and the
+data being predicted.
 }
 \description{
 Augment data with predicted values
