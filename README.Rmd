@@ -32,6 +32,8 @@ You can install the development version of adjusted like so:
 pak::pak("topepo/adjusted)
 ```
 
+It is not on CRAN yet. 
+
 ## Example
 
 Let’s model the motorcycle helmet data in the `MASS` package with a regression tree as an example. First, the data and the original CART fit: 
