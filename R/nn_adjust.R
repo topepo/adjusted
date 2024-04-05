@@ -36,7 +36,7 @@
 #' Gower, J  (1971). "A general coefficient of similarity and some of its
 #' properties." _Biometrics_, pp. 857-871.
 #' @examples
-#' if (rlang::check_installed(c("ggplot2", "parsnip", "rpart", "MASS"))) {
+#' if (rlang::is_installed(c("ggplot2", "parsnip", "rpart", "MASS"))) {
 #'
 #'   library(workflows)
 #'   library(dplyr)

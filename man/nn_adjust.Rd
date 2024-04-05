@@ -50,7 +50,7 @@ The number of neighbors does not need to be declared until the adjustment is
 executed by \code{\link[=predict.nn_adjust]{predict.nn_adjust()}} or \code{\link[=augment.nn_adjust]{augment.nn_adjust()}}.
 }
 \examples{
-if (rlang::check_installed(c("ggplot2", "parsnip", "rpart", "MASS"))) {
+if (rlang::is_installed(c("ggplot2", "parsnip", "rpart", "MASS"))) {
 
   library(workflows)
   library(dplyr)
