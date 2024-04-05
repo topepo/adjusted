@@ -9,7 +9,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "80%"
+  out.width = "80%",
+  fig.align = "center"
 )
 ```
 
@@ -38,12 +39,22 @@ It is not on CRAN yet.
 
 Let’s model the motorcycle helmet data in the `MASS` package with a regression tree as an example. First, the data and the original CART fit: 
 
+```{r, include=FALSE}
+# pre-load packages
+library(adjusted)
+library(workflows)
+library(dplyr)
+library(parsnip)
+library(ggplot2)
+```
+
 ```{r}
 library(adjusted)
 library(workflows)
 library(dplyr)
 library(parsnip)
 library(ggplot2)
+# Also required the rpart package to be installed
 
 # Use the 1D motorcycle helmet data as an example
 

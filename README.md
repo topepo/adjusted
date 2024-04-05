@@ -29,6 +29,8 @@ You can install the development version of adjusted like so:
 pak::pak("topepo/adjusted)
 ```
 
+It is not on CRAN yet.
+
 ## Example
 
 Let’s model the motorcycle helmet data in the `MASS` package with a
@@ -39,16 +41,9 @@ fit:
 library(adjusted)
 library(workflows)
 library(dplyr)
-#> 
-#> Attaching package: 'dplyr'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     filter, lag
-#> The following objects are masked from 'package:base':
-#> 
-#>     intersect, setdiff, setequal, union
 library(parsnip)
 library(ggplot2)
+# Also required the rpart package to be installed
 
 # Use the 1D motorcycle helmet data as an example
 
@@ -73,7 +68,7 @@ cycl_train %>%
   geom_point(aes(y = accel))
 ```
 
-<img src="man/figures/README-training-1.png" width="80%" />
+<img src="man/figures/README-training-1.png" width="80%" style="display: block; margin: auto;" />
 
 The CART fit is, as expected, blocky:
 
@@ -92,7 +87,7 @@ raw_pred %>%
   geom_line(aes(y = .pred),  col = "blue", alpha = 3 / 4)
 ```
 
-<img src="man/figures/README-raw-1.png" width="80%" />
+<img src="man/figures/README-raw-1.png" width="80%" style="display: block; margin: auto;" />
 
 The `nn_adjust()` function collects the information that it needs by
 storing the fitted workflow as well as the training set:
@@ -129,7 +124,7 @@ adj_pred %>%
   geom_line(aes(y = .pred),  col = "darkorange", alpha = 3 / 4)
 ```
 
-<img src="man/figures/README-adjusted-1.png" width="80%" />
+<img src="man/figures/README-adjusted-1.png" width="80%" style="display: block; margin: auto;" />
 
 ## Code of Conduct
 
