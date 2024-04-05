@@ -6,7 +6,7 @@
 \alias{adjusted-package}
 \title{adjusted: Post-Hoc Nearest Neighbor Adjustment of Regression Predictions}
 \description{
-Use the training set nearest neighbors to adjust new predicted values.
+Use the training set nearest neighbors to adjust new predicted values via the technique of Quinlan (1993) \doi{10.1145/3607865.3613181}.
 }
 \author{
 \strong{Maintainer}: Max Kuhn \email{mxkuhn@gmail.com} (\href{https://orcid.org/0000-0003-2402-136X}{ORCID})

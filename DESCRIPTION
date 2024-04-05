@@ -5,7 +5,8 @@ Authors@R:
     person("Max", "Kuhn", , "mxkuhn@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0003-2402-136X"))
 Description: Use the training set nearest neighbors to adjust new
-    predicted values.
+    predicted values via the technique of Quinlan (1993) 
+    <doi:10.1145/3607865.3613181>.
 License: MIT + file LICENSE
 Imports: 
     butcher,
@@ -20,6 +21,8 @@ Imports:
     tibble,
     workflows
 Suggests: 
+    ggplot2,
+    MASS,
     modeldata,
     parsnip,
     spelling,
@@ -28,4 +31,4 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 Roxygen: list(markdown = TRUE)
-RoxygenNote: 7.3.0
+RoxygenNote: 7.3.1

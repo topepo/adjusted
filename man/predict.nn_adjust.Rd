@@ -28,3 +28,6 @@ predictions.
 \description{
 Make adjusted predictions
 }
+\seealso{
+\code{\link[=nn_adjust]{nn_adjust()}}, \code{\link[=augment.nn_adjust]{augment.nn_adjust()}}
+}

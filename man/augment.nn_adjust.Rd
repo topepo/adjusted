@@ -15,9 +15,12 @@ format.}
 \item{...}{Not currently used.}
 }
 \value{
-A tibble with a numeric column \code{.pred} that are the adjusted and the
-data being predicted.
+The data being predicted with an additional column \code{.pred} that are
+the adjusted predictions.
 }
 \description{
 Augment data with predicted values
+}
+\seealso{
+\code{\link[=nn_adjust]{nn_adjust()}}, \code{\link[=predict.nn_adjust]{predict.nn_adjust()}}
 }

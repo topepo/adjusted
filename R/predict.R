@@ -9,6 +9,7 @@
 #' @param ... Not currently used.
 #' @return A tibble with a numeric column `.pred` that are the adjusted
 #' predictions.
+#' @seealso [nn_adjust()], [augment.nn_adjust()]
 #' @export
 predict.nn_adjust <- function(object, new_data, neighbors = 3, eps = 1 / 2, cores = 1, ...) {
   rlang::check_installed(object$pkgs)
@@ -48,8 +49,9 @@ check_neighbors <- function(neighbors, object) {
 #' Augment data with predicted values
 #' @inheritParams predict.nn_adjust
 #' @param x An object of class [nn_adjust()].
-#' @return A tibble with a numeric column `.pred` that are the adjusted and the
-#' data being predicted.
+#' @return The data being predicted with an additional column `.pred` that are
+#' the adjusted predictions.
+#' @seealso [nn_adjust()], [predict.nn_adjust()]
 #' @export
 augment.nn_adjust <- function(x, new_data, ...) {
   predictions <- predict(x, new_data, ...)
