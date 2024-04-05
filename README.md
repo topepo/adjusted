@@ -73,7 +73,7 @@ cycl_train %>%
   geom_point(aes(y = accel))
 ```
 
-<img src="man/figures/README-training-1.png" width="100%" />
+<img src="man/figures/README-training-1.png" width="80%" />
 
 The CART fit is, as expected, blocky:
 
@@ -92,7 +92,7 @@ raw_pred %>%
   geom_line(aes(y = .pred),  col = "blue", alpha = 3 / 4)
 ```
 
-<img src="man/figures/README-raw-1.png" width="100%" />
+<img src="man/figures/README-raw-1.png" width="80%" />
 
 The `nn_adjust()` function collects the information that it needs by
 storing the fitted workflow as well as the training set:
@@ -126,10 +126,10 @@ For the held out data, there are different predictions:
 adj_pred %>% 
   ggplot(aes(x = times)) + 
   geom_point(data = cycl_test, aes(y = accel)) +
-  geom_line(aes(y = .pred),  col = "orange", alpha = 3 / 4)
+  geom_line(aes(y = .pred),  col = "darkorange", alpha = 3 / 4)
 ```
 
-<img src="man/figures/README-adjusted-1.png" width="100%" />
+<img src="man/figures/README-adjusted-1.png" width="80%" />
 
 ## Code of Conduct
 

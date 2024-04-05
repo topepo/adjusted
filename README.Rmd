@@ -9,7 +9,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
   fig.path = "man/figures/README-",
-  out.width = "100%"
+  out.width = "80%"
 )
 ```
 
@@ -103,7 +103,7 @@ For the held out data, there are different predictions:
 adj_pred %>% 
   ggplot(aes(x = times)) + 
   geom_point(data = cycl_test, aes(y = accel)) +
-  geom_line(aes(y = .pred),  col = "orange", alpha = 3 / 4)
+  geom_line(aes(y = .pred),  col = "darkorange", alpha = 3 / 4)
 ```
 
 ## Code of Conduct
