@@ -19,7 +19,7 @@
 #' For the \eqn{i=1\ldots K} nearest neighbors, the method computes the adjusted
 #' predicted value based on
 #'
-#' \deqn{\widehat{a}^*_i = y_i + (\widehat{y}_i - \widehat{y}_{new})}
+#' \deqn{\widehat{a}^*_i = y_i + ( \widehat{y}_{new} - \widehat{y}_i)}
 #'
 #' then takes a weighted mean as the final predicted value. The weights are the
 #' inverse of the Gower distance plus a small constant (defaulted to 0.5 but is
