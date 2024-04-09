@@ -101,7 +101,6 @@ prediction along with the adjustment. The number of neighbors is
 specified here:
 
 ``` r
-adj_obj <- nn_adjust(cart_fit, cycl_train)
 adj_pred <- augment(adj_obj, mcycle_grid, neighbors = 10)
 head(adj_pred)
 #> # A tibble: 6 × 2

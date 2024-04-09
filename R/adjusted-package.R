@@ -6,3 +6,5 @@
 #' @importFrom generics required_pkgs
 ## usethis namespace: end
 NULL
+
+utils::globalVariables(c(".resid"))

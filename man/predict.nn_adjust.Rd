@@ -28,6 +28,48 @@ predictions.
 \description{
 Make adjusted predictions
 }
+\examples{
+# example code
+
+if (rlang::is_installed(c("ggplot2", "parsnip", "rpart", "MASS"))) {
+
+  library(workflows)
+  library(dplyr)
+  library(parsnip)
+  library(ggplot2)
+
+  # ------------------------------------------------------------------------------
+  # Use the 1D motorcycle helmet data as an example
+
+  data(mcycle, package = "MASS")
+
+  # Use every fifth data point as a test point
+  in_test <- ( 1:nrow(mcycle) ) \%\% 5 == 0
+  cycl_train <- mcycle[-in_test, ]
+  cycl_test  <- mcycle[ in_test, ]
+
+  # ------------------------------------------------------------------------------
+  # Fit a decision tree
+
+  cart_spec <- decision_tree() \%>\% set_mode("regression")
+
+  cart_fit <-
+    workflow(accel ~ times, cart_spec) \%>\%
+    fit(data = cycl_train)
+
+  adj_obj <- nn_adjust(cart_fit, cycl_train)
+
+  # Raw predictions plus data:
+  augment(cart_fit, head(cycl_test))
+
+  # Adjusted predictions:
+  predict(adj_obj, head(cycl_test), neighbors = 10)
+
+  # Add the data too
+  augment(adj_obj, head(cycl_test), neighbors = 10)
+
+}
+}
 \seealso{
 \code{\link[=nn_adjust]{nn_adjust()}}, \code{\link[=augment.nn_adjust]{augment.nn_adjust()}}
 }
