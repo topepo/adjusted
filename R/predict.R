@@ -123,7 +123,7 @@ check_neighbors <- function(neighbors, object) {
 #'     workflow(accel ~ times, cart_spec) %>%
 #'     fit(data = cycl_train)
 #'
-#'   adj_obj <- nn_adjust(cart_fit, cycl_train)\
+#'   adj_obj <- nn_adjust(cart_fit, cycl_train)
 #'
 #'   # Raw predictions plus data:
 #'   augment(cart_fit, head(cycl_test))
