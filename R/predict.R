@@ -60,7 +60,7 @@ predict.nn_adjust <- function(
 	cores = 1,
 	...
 ) {
-  check_number_whole(neighbors, min = 0L, allow_null = TRUE)
+  check_number_whole(neighbors, min = 0, allow_null = TRUE)
   neighbors <- check_neighbors(neighbors, object)
 
 	rlang::check_installed(object$pkgs)

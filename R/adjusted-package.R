@@ -4,6 +4,7 @@
 ## usethis namespace: start
 #' @importFrom stats predict
 #' @importFrom generics required_pkgs
+#' @import rlang
 ## usethis namespace: end
 NULL
 

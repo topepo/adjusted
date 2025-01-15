@@ -6,17 +6,18 @@
 \alias{nn_adjust.workflow}
 \title{Nearest Neighbor Adjustment of Predictions}
 \usage{
-nn_adjust(wflow, training, ...)
+nn_adjust(wflow, .data, ...)
 
-\method{nn_adjust}{default}(wflow, training, ...)
+\method{nn_adjust}{default}(wflow, .data, ...)
 
-\method{nn_adjust}{workflow}(wflow, training, butcher = FALSE, ...)
+\method{nn_adjust}{workflow}(wflow, .data, butcher = FALSE, ...)
 }
 \arguments{
 \item{wflow}{A fitted \code{\link[workflows:workflow]{workflows::workflow()}} object.}
 
-\item{training}{A data frame containing the predictors and outcome data used
-to create \code{wflow}.}
+\item{.data}{A data frame containing the predictors and outcome data used
+to create \code{wflow}. These should be in the same format as they were given to
+the workflow (i.e., not processed by a recipe, etc.).}
 
 \item{...}{Not currently used.}
 
@@ -24,16 +25,16 @@ to create \code{wflow}.}
 workflow's size?}
 }
 \value{
-An object of class \code{nn_adjust}. It contains the training set, fitted
+An object of class \code{nn_adjust}. It contains the data set, fitted
 workflow, and other details.
 }
 \description{
 For regression models (i.e., predicting numeric outcomes), this function
-compares a predicted value to the predictions from the training set and uses
+compares a predicted value to the predictions from the one data set and uses
 their values to increase or decrease the original prediction.
 }
 \details{
-Gower’s method finds the K training set points that are most similar to the
+Gower’s method finds the K data points that are most similar to the
 sample being predicted. This distance method is appropriate for qualitative
 and quantitative predictors and does not require normalization.
 
