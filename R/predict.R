@@ -52,38 +52,58 @@
 #'
 #' }
 #' @export
-predict.nn_adjust <- function(object, new_data, neighbors = 3, eps = 1 / 2, cores = 1, ...) {
-  rlang::check_installed(object$pkgs)
-  mold <- hardhat::extract_mold(object$fit)
-  new_data <- hardhat::forge(new_data, blueprint = mold$blueprint)$predictors
-
+predict.nn_adjust <- function(
+	object,
+	new_data,
+	neighbors = 3,
+	eps = 1 / 2,
+	cores = 1,
+	...
+) {
+  check_number_whole(neighbors, min = 0L, allow_null = TRUE)
   neighbors <- check_neighbors(neighbors, object)
-  # check data via ptype (via forge?)
 
-  new_predictions <- predict(object$fit, new_data)$.pred
-  if (neighbors == 0) {
-    return(tibble::tibble(.pred = new_predictions))
-  }
+	rlang::check_installed(object$pkgs)
+	mold <- hardhat::extract_mold(object$fit)
+	new_data <- hardhat::forge(new_data, blueprint = mold$blueprint)$predictors
 
-  nn_object <-  gower::gower_topn(new_data, object$predictors, n = neighbors, nthread = cores)
-  ref_predictions <- apply(nn_object$index, 1, function(x) object$predictions[x])
-  ref_outcomes    <- apply(nn_object$index, 1, function(x) object$outcome[x])
-  nn_wts <- 1 / ( t(nn_object$distance) + eps )
-  wt_sum <- apply(nn_wts, 1, sum)
-  adjusted <- apply( ( (new_predictions - ref_predictions) + ref_outcomes ) * nn_wts, 1, sum)
-  tibble::tibble(.pred = adjusted / wt_sum)
+	new_predictions <- predict(object$fit, new_data)$.pred
+	if (neighbors == 0L) {
+		return(tibble::tibble(.pred = new_predictions))
+	}
+
+	nn_object <- gower::gower_topn(
+		new_data,
+		object$predictors,
+		n = neighbors,
+		nthread = cores
+	)
+	ref_predictions <- apply(
+		nn_object$index,
+		1,
+		function(x) object$predictions[x]
+	)
+	ref_outcomes <- apply(nn_object$index, 1, function(x) object$outcome[x])
+	nn_wts <- 1 / (t(nn_object$distance) + eps)
+	wt_sum <- apply(nn_wts, 1, sum)
+	adjusted <- apply(
+		((new_predictions - ref_predictions) + ref_outcomes) * nn_wts,
+		1,
+		sum
+	)
+	tibble::tibble(.pred = adjusted / wt_sum)
 }
-
 
 check_neighbors <- function(neighbors, object) {
-  if (neighbors < 0) {
-    neighbors <- 0
-  } else {
-    neighbors <- min(neighbors, length(object$outcome))
-  }
-  neighbors
+	if (neighbors < 0) {
+		neighbors <- 0
+	} else {
+		neighbors <- min(neighbors, length(object$outcome))
+	}
+	neighbors
 }
 
+# TODO make api for when we already have the predictors (as tailor would)
 
 # ------------------------------------------------------------------------------
 
@@ -137,18 +157,22 @@ check_neighbors <- function(neighbors, object) {
 #' }
 #' @export
 augment.nn_adjust <- function(x, new_data, ...) {
-  predictions <- predict(x, new_data, ...)
-  mold <- hardhat::extract_mold(x$fit)
-  y_names <- names(mold$outcomes)
-  has_outcome <- any(names(new_data) %in% y_names)
-  forged <- hardhat::forge(new_data, blueprint = mold$blueprint, outcomes = has_outcome)
+	predictions <- predict(x, new_data, ...)
+	mold <- hardhat::extract_mold(x$fit)
+	y_names <- names(mold$outcomes)
+	has_outcome <- any(names(new_data) %in% y_names)
+	forged <- hardhat::forge(
+		new_data,
+		blueprint = mold$blueprint,
+		outcomes = has_outcome
+	)
 
-  predictors <- forged$predictors
-  outcomes <-  forged$outcomes
-  res <- dplyr::bind_cols(predictions, outcomes, predictors)
-  if (has_outcome) {
-    res$.resid <- res[[y_names]] - res$.pred
-    res <- dplyr::relocate(res, .resid, .after = dplyr::all_of(y_names))
-  }
-  res
+	predictors <- forged$predictors
+	outcomes <- forged$outcomes
+	res <- dplyr::bind_cols(predictions, outcomes, predictors)
+	if (has_outcome) {
+		res$.resid <- res[[y_names]] - res$.pred
+		res <- dplyr::relocate(res, .resid, .after = dplyr::all_of(y_names))
+	}
+	res
 }
