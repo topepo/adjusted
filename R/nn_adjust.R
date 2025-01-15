@@ -1,18 +1,19 @@
 #' Nearest Neighbor Adjustment of Predictions
 #'
 #' For regression models (i.e., predicting numeric outcomes), this function
-#' compares a predicted value to the predictions from the training set and uses
+#' compares a predicted value to the predictions from the one data set and uses
 #' their values to increase or decrease the original prediction.
 #'
 #' @param wflow A fitted [workflows::workflow()] object.
-#' @param training A data frame containing the predictors and outcome data used
-#' to create `wflow`.
+#' @param .data A data frame containing the predictors and outcome data used
+#' to create `wflow`. These should be in the same format as they were given to
+#' the workflow (i.e., not processed by a recipe, etc.).
 #' @param butcher A logical: should [butcher::butcher()] be used to trim the
 #' workflow's size?
 #' @param ... Not currently used.
 #' @details
 #'
-#' Gower’s method finds the K training set points that are most similar to the
+#' Gower’s method finds the K data points that are most similar to the
 #' sample being predicted. This distance method is appropriate for qualitative
 #' and quantitative predictors and does not require normalization.
 #'
@@ -27,7 +28,7 @@
 #'
 #' The number of neighbors does not need to be declared until the adjustment is
 #' executed by [predict.nn_adjust()] or [augment.nn_adjust()].
-#' @return An object of class `nn_adjust`. It contains the training set, fitted
+#' @return An object of class `nn_adjust`. It contains the data set, fitted
 #' workflow, and other details.
 #' @seealso [predict.nn_adjust()], [augment.nn_adjust()]
 #' @references Quinlan R (1993). "Combining instance–based and model–based
@@ -97,48 +98,52 @@
 #'
 #' }
 #' @export
-nn_adjust <- function(wflow, training, ...) {
-  UseMethod("nn_adjust")
+nn_adjust <- function(wflow, .data, ...) {
+	UseMethod("nn_adjust")
 }
 
 #' @rdname nn_adjust
 #' @export
-nn_adjust.default <- function(wflow, training, ...) {
-  cli::cli_abort("There are no methods for this type of object.")
-  invisible(NULL)
+nn_adjust.default <- function(wflow, .data, ...) {
+	cli::cli_abort("There are no methods for {obj_type_friendly(wflow)}.")
+	invisible(NULL)
 }
 
 #' @rdname nn_adjust
 #' @export
-nn_adjust.workflow <- function(wflow, training, butcher = FALSE, ...) {
-  if (!workflows::is_trained_workflow(wflow)) {
-    cli::cli_abort("{.arg wflow} should be trainined.")
-  }
+nn_adjust.workflow <- function(wflow, .data, butcher = FALSE, ...) {
+	if (!workflows::is_trained_workflow(wflow)) {
+		cli::cli_abort("{.arg wflow} should be trainined.")
+	}
 
-  mode <- wflow %>% hardhat::extract_spec_parsnip() %>% purrr::pluck("mode")
-  if (mode != "regression") {
-    cli::cli_abort("The model must have a 'regression' mode.")
-  }
+	mode <- wflow %>% hardhat::extract_spec_parsnip() %>% purrr::pluck("mode")
+	if (mode != "regression") {
+		cli::cli_abort("The model must have a 'regression' mode.")
+	}
 
-  pkgs <- required_pkgs(wflow)
-  rlang::check_installed(pkgs)
+	pkgs <- required_pkgs(wflow)
+	rlang::check_installed(pkgs)
 
-  mold <- hardhat::extract_mold(wflow)
-  forged <- hardhat::forge(training, blueprint = mold$blueprint, outcomes = TRUE)
+	mold <- hardhat::extract_mold(wflow)
+	forged <- hardhat::forge(.data, blueprint = mold$blueprint, outcomes = TRUE)
 
-  train_pred <- predict(wflow, forged$predictors)$.pred
+	train_pred <- predict(wflow, forged$predictors)$.pred
 
-  if (butcher) {
-    wflow <- butcher::butcher(wflow)
-  }
-  res <- list(fit = wflow, predictions = train_pred, pkgs = pkgs,
-              predictors = forged$predictors, outcome = forged$outcomes[[1]])
-  class(res) <- "nn_adjust"
-  res
+	if (butcher) {
+		wflow <- butcher::butcher(wflow)
+	}
+	res <- list(
+		fit = wflow,
+		predictions = train_pred,
+		pkgs = pkgs,
+		predictors = forged$predictors,
+		outcome = forged$outcomes[[1]]
+	)
+	class(res) <- "nn_adjust"
+	res
 }
 
 # find a way make this self-referential so that we can put it in a workflow
 # and not save the workflow
 
 # notes: move multi_predict to generics
-
